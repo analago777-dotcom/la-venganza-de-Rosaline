@@ -1,0 +1,249 @@
+/* ==========================================================
+   La venganza de Rosaline · estilo manuscrito medieval
+   Navegación sin JavaScript: cada nodo es una sección con id
+   y se muestra con la pseudo-clase :target.
+   ========================================================== */
+
+:root {
+  --noche:      #1d1612;  /* fondo de la mesa del escriba */
+  --pergamino:  #e9d8ae;  /* hoja principal */
+  --pergamino-2:#dcc693;  /* sombra del pergamino */
+  --tinta:      #2b1d14;  /* tinta de agalla */
+  --sangre:     #7a1f1f;  /* rojo de rúbrica */
+  --oro:        #b58a2b;  /* pan de oro */
+  --verde:      #2f4a37;  /* verde de iluminación */
+
+  --fuente-titulo: "UnifrakturCook", "Old English Text MT", "Luminari", serif;
+  --fuente-texto:  "IM Fell English", "Palatino Linotype", Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 2rem 1rem 4rem;
+  font-family: var(--fuente-texto);
+  font-size: 1.25rem;
+  line-height: 1.65;
+  color: var(--tinta);
+  background:
+    radial-gradient(ellipse at 50% 0%, #3a2a20 0%, transparent 60%),
+    repeating-linear-gradient(90deg, #1d1612 0 46px, #21190f 46px 48px),
+    var(--noche);
+}
+
+/* ---------- Cabecera ---------- */
+
+.cabecera {
+  max-width: 44rem;
+  margin: 0 auto 1.75rem;
+  text-align: center;
+  color: var(--pergamino);
+}
+
+.cabecera h1 {
+  margin: 0;
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: clamp(2.4rem, 8vw, 4rem);
+  line-height: 1.1;
+  color: var(--oro);
+  text-shadow: 0 2px 0 #000, 0 0 24px rgba(181, 138, 43, 0.35);
+}
+
+.subtitulo {
+  margin: 0.4rem 0 0;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--pergamino-2);
+}
+
+/* ---------- Hoja de pergamino ---------- */
+
+.historia {
+  position: relative;
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2.5rem clamp(1.25rem, 5vw, 3.5rem) 2.75rem;
+  background:
+    radial-gradient(ellipse at 20% 15%, rgba(255, 255, 255, 0.28), transparent 55%),
+    radial-gradient(ellipse at 85% 90%, rgba(122, 80, 20, 0.28), transparent 60%),
+    var(--pergamino);
+  border: 3px double var(--sangre);
+  outline: 2px solid var(--oro);
+  outline-offset: 7px;
+  box-shadow:
+    inset 0 0 70px rgba(110, 70, 20, 0.45),
+    0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- Lógica de navegación (sin JS) ---------- */
+
+.nodo { display: none; }
+
+/* El nodo apuntado por el enlace se muestra */
+.nodo:target {
+  display: block;
+  animation: desenrollar 0.7s ease-out;
+}
+
+/* Si no hay ningún nodo apuntado, se muestra el comienzo */
+.historia:not(:has(.nodo:target)) #n1-1 {
+  display: block;
+  animation: desenrollar 0.7s ease-out;
+}
+
+/* Único momento animado: el pergamino se despliega al abrir cada escena */
+@keyframes desenrollar {
+  from { opacity: 0; clip-path: inset(0 0 100% 0); }
+  to   { opacity: 1; clip-path: inset(0 0 0 0); }
+}
+
+/* ---------- Nivel ---------- */
+
+.nivel {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin: 0 0 1.5rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--oro);
+  font-style: italic;
+  color: var(--verde);
+}
+
+/* Sello de lacre con el número del nivel en romano */
+.sello {
+  display: inline-grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50% 46% 52% 48%;
+  font-family: var(--fuente-titulo);
+  font-style: normal;
+  font-size: 1.15rem;
+  color: #f3dcb0;
+  background: radial-gradient(circle at 35% 30%, #a83232, var(--sangre) 60%, #4d1010);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), inset 0 0 0 3px rgba(0, 0, 0, 0.18);
+}
+
+/* ---------- Texto ---------- */
+
+.texto {
+  margin: 0 0 1.2rem;
+  text-align: justify;
+  hyphens: auto;
+}
+
+/* Letra capitular iluminada: el elemento memorable de la página */
+.capitular::first-letter {
+  float: left;
+  margin: 0.1rem 0.6rem 0 0;
+  padding: 0.1rem 0.5rem 0;
+  font-family: var(--fuente-titulo);
+  font-size: 4.4rem;
+  line-height: 0.85;
+  color: var(--sangre);
+  background: linear-gradient(160deg, #f0d98c, var(--oro));
+  border: 2px solid var(--sangre);
+  box-shadow: 3px 3px 0 var(--verde);
+}
+
+.pregunta {
+  margin: 1.8rem 0 0.9rem;
+  font-style: italic;
+  font-size: 1.3rem;
+  text-align: center;
+  color: var(--sangre);
+}
+
+/* ---------- Decisiones ---------- */
+
+.decisiones {
+  display: grid;
+  gap: 0.85rem;
+  margin-top: 0.6rem;
+}
+
+.opcion {
+  display: block;
+  padding: 0.85rem 1.2rem;
+  text-align: center;
+  text-decoration: none;
+  font-family: var(--fuente-texto);
+  font-size: 1.15rem;
+  color: #f3dcb0;
+  background: linear-gradient(180deg, #8f2a2a, var(--sangre));
+  border: 2px solid var(--oro);
+  border-radius: 2px;
+  box-shadow: 0 3px 0 #3d0d0d, 0 5px 8px rgba(0, 0, 0, 0.35);
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.opcion:hover,
+.opcion:focus-visible {
+  background: linear-gradient(180deg, #a83232, #8f2a2a);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #3d0d0d, 0 8px 12px rgba(0, 0, 0, 0.4);
+}
+
+.opcion:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #3d0d0d;
+}
+
+.opcion:focus-visible {
+  outline: 3px solid var(--verde);
+  outline-offset: 3px;
+}
+
+/* Botón de reinicio: verde, para distinguirlo de una decisión */
+.reiniciar {
+  background: linear-gradient(180deg, #3d5e48, var(--verde));
+  box-shadow: 0 3px 0 #16261b, 0 5px 8px rgba(0, 0, 0, 0.35);
+}
+
+.reiniciar:hover,
+.reiniciar:focus-visible {
+  background: linear-gradient(180deg, #4a7058, #3d5e48);
+  box-shadow: 0 5px 0 #16261b, 0 8px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* ---------- Finales ---------- */
+
+.fin {
+  margin: 1.6rem 0 1.4rem;
+  padding: 0.6rem 0;
+  text-align: center;
+  font-family: var(--fuente-titulo);
+  font-size: 2.6rem;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  border-top: 2px solid var(--oro);
+  border-bottom: 2px solid var(--oro);
+}
+
+.final.feliz .fin,
+.final.redencion .fin { color: var(--verde); }
+
+.final.tragico .fin  { color: var(--sangre); }
+
+.final.tragico .nivel .sello { background: radial-gradient(circle at 35% 30%, #444, #1a1a1a 70%); }
+
+/* ---------- Móvil y accesibilidad ---------- */
+
+@media (max-width: 480px) {
+  body { font-size: 1.1rem; padding-top: 1.25rem; }
+  .texto { text-align: left; }
+  .capitular::first-letter { font-size: 3.6rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .nodo:target,
+  .historia:not(:has(.nodo:target)) #n1-1 { animation: none; }
+  .opcion { transition: none; }
+}
